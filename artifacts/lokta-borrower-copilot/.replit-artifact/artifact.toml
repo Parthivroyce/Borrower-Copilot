@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Lokta Borrower Copilot"
+description = "A transparent borrowing decision assistant that asks only relevant questions, distinguishes lender sanction from borrower-safe affordability, and gives people a plain-English negotiation card before they sign."
+version = "1.0.0"
+id = "artifacts/lokta-borrower-copilot"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18718
+
+[services.development]
+run = "pnpm --filter @workspace/lokta-borrower-copilot run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/lokta-borrower-copilot", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/lokta-borrower-copilot/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18718"
+BASE_PATH = "/"
